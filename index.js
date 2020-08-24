@@ -8,8 +8,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res)  => {
-    console.log({req, res});
-    res.send({ ack: 'ack' })
+    const event = { event } = req.body;
+    console.log({event});
+    res.send({ ack: 'ack' });
 })
 
 app.listen(port, () => {
