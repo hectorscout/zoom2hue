@@ -5,12 +5,12 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.post('/', (req, res)  => {
     // const { event } = req.body;
     console.log({body: req.body});
-    console.log(req)
+    // console.log(req)
     res.send({ ack: 'ack' });
 })
 
