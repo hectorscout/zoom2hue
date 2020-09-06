@@ -7,14 +7,19 @@ const port = process.env.PORT || 8080;
 const HUE_CLIENT_ID = process.env.HUE_CLIENT_ID;
 const HUE_CLIENT_SECRET = process.env.HUE_CLIENT_SECRET;
 
-const md5 = (string) => {
-    return crypto.createHash('md5').update(string).digest('hex');
-}
+// const md5 = (string) => {
+//     return crypto.createHash('md5').update(string).digest('hex');
+// }
 
-const makeDigestResponse = (realm, nonce) => {
-    const hash1 = md5(`${HUE_CLIENT_ID}:${realm}:${HUE_CLIENT_SECRET}`);
-    const hash2 = md5('POST:/oauth2/token')
-    return md5(`${hash1}:${nonce}:${hash2}`)
+// const makeDigestResponse = (realm, nonce) => {
+//     const hash1 = md5(`${HUE_CLIENT_ID}:${realm}:${HUE_CLIENT_SECRET}`);
+//     const hash2 = md5('POST:/oauth2/token')
+//     return md5(`${hash1}:${nonce}:${hash2}`)
+// }
+
+const basicAuth = () => {
+    const buff = new Buffer(`${HUE_CLIENT_ID}:${HUE_CLIENT_SECRET}`)
+    return `Basic ${buff.toString('base64')}`
 }
 
 const app = express();
@@ -23,23 +28,24 @@ app.use(bodyParser.json());
 
 app.get('/', (req,res) => {
     console.log({get: 'get', query: req.query})
+    const headers = {Authorization: basicAuth()}
     axios
-      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`)
+      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, headers)
       .then( res => {
         console.log('token response', res)
       })
       .catch(error => {
           console.log(error.response)
-          const [realm, nonce] = error.response.headers["www-authenticate"].split(',').map((item) => item.split('=')[1].replace('"', ''))
-          const digest = makeDigestResponse(realm, nonce)
-          const authHeader = `Digest username="${HUE_CLIENT_ID}", realm="${realm}", nonce="${nonce}", uri="/oauth2/token", response="${digest}"`
-          axios.post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers: {Authorization: authHeader}})
-            .then( res => {
-              console.log('token response', res)
-            })
-            .catch(error => {
-                console.log(error.response)
-            })
+        //   const [realm, nonce] = error.response.headers["www-authenticate"].split(',').map((item) => item.split('=')[1].replace('"', ''))
+        //   const digest = makeDigestResponse(realm, nonce)
+        //   const authHeader = `Digest username="${HUE_CLIENT_ID}", realm="${realm}", nonce="${nonce}", uri="/oauth2/token", response="${digest}"`
+        //   axios.post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers: {Authorization: authHeader}})
+        //     .then( res => {
+        //       console.log('token response', res)
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response)
+        //     })
         })
     res.send({ack: 'ack', message: 'it was a get'})
 })
