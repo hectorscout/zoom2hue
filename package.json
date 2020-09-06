@@ -19,6 +19,7 @@
   "homepage": "https://github.com/hectorscout/zoom2hue#readme",
   "dependencies": {
     "axios": "^0.20.0",
+    "crypto": "^1.0.1",
     "express": "^4.17.1"
   }
 }
