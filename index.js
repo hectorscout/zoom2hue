@@ -30,7 +30,7 @@ app.get('/', (req,res) => {
     console.log({get: 'get', query: req.query})
     const headers = {Authorization: basicAuth()}
     axios
-      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, headers)
+      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers})
       .then( res => {
         console.log('token response', res)
       })
