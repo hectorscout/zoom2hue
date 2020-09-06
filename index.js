@@ -34,6 +34,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/whitelist', (req, res) => {
+    axios
+      .post('https://api.meethue.com/bridge/0/config', {linkbutton: true}, {headers: authHeaders()})
+      .then(
+          axios.post('https://api.meetgue.com/bridge', {devicetype: 'herokuzoom2hue'})
+            .then((res) => {
+                console.log('bridgeRes', res)
+            })
+            .catch(error => console.log(error))
+      )
+      .catch(error => console.log(error))
+})
+
 app.get('/', (req,res) => {
     console.log({get: 'get', query: req.query})
     const headers = {Authorization: basicAuth()}
@@ -66,18 +79,6 @@ app.post('/', (req, res)  => {
     res.send({ ack: 'ack' });
 })
 
-app.get('/whitelist', (req, res) => {
-    axios
-      .post('https://api.meethue.com/bridge/0/config', {linkbutton: true}, {headers: authHeaders()})
-      .then(
-          axios.post('https://api.meetgue.com/bridge', {devicetype: 'herokuzoom2hue'})
-            .then((res) => {
-                console.log('bridgeRes', res)
-            })
-            .catch(error => console.log(error))
-      )
-      .catch(error => console.log(error))
-})
 
 app.listen(port, () => {
   console.log('We are live on ' + port);
