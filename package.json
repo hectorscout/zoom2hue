@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hectorscout/zoom2hue#readme",
   "dependencies": {
+    "axios": "^0.20.0",
     "express": "^4.17.1"
   }
 }
