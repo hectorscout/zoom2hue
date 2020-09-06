@@ -37,6 +37,9 @@ app.get('/', (req,res) => {
             .then( res => {
               console.log('token response', res)
             })
+            .catch(error => {
+                console.log(error.response)
+            })
         })
     res.send({ack: 'ack', message: 'it was a get'})
 })
