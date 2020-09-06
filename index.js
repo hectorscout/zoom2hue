@@ -9,7 +9,13 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/', (req,res) => {
-    console.log({get: 'get', body:req.body})
+    console.log({get: 'get', body:req})
+    axios
+      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`)
+      .then( res => {
+        console.log('token response', res)
+      })
+      .catch(error => {console.log(error)})
     res.send({ack: 'ack', message: 'it was a get'})
 })
 
@@ -17,13 +23,6 @@ app.post('/', (req, res)  => {
     // const { event } = req.body;
     console.log({body: req});
     // console.log(req)
-
-    axios
-      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`)
-      .then( res => {
-        console.log('token response', res)
-      })
-      .catch(error => {console.log(error)})
 
     res.send({ ack: 'ack' });
 })
