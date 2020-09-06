@@ -33,7 +33,7 @@ app.get('/', (req,res) => {
           const {realm, nonce} = error.response
           const digest = makeDigestResponse(realm, nonce)
           const authHeader = `Digest username="${HUE_CLIENT_ID}", realm="${realm}", nonce="${nonce}", uri="/oauth2/token", response="${digest}"`
-          axios.post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {headers: {Authorization: authHeader}})
+          axios.post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers: {Authorization: authHeader}})
             .then( res => {
               console.log('token response', res)
             })
