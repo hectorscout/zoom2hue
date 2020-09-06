@@ -8,6 +8,8 @@ const HUE_CLIENT_ID = process.env.HUE_CLIENT_ID;
 const HUE_CLIENT_SECRET = process.env.HUE_CLIENT_SECRET;
 const HUE_ACCESS_TOKEN = process.env.HUE_ACCESS_TOKEN;
 
+const HUE_BASE_URL = 'https://api.meethue.com';
+
 // const md5 = (string) => {
 //     return crypto.createHash('md5').update(string).digest('hex');
 // }
@@ -36,9 +38,9 @@ app.use(bodyParser.json());
 
 app.get('/whitelist', (req, res) => {
     axios
-      .post('https://api.meethue.com/bridge/0/config', {linkbutton: true}, {headers: authHeaders()})
+      .post(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders()})
       .then(
-          axios.post('https://api.meetgue.com/bridge', {devicetype: 'herokuzoom2hue'})
+          axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'})
             .then((res) => {
                 console.log('bridgeRes', res)
             })
@@ -51,7 +53,7 @@ app.get('/', (req,res) => {
     console.log({get: 'get', query: req.query})
     const headers = {Authorization: basicAuth()}
     axios
-      .post(`https://api.meethue.com/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers})
+      .post(`${HUE_BASE_URL}/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers})
       .then( res => {
         console.log('token response', res.data)
       })
