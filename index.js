@@ -107,7 +107,7 @@ app.get('/', (req,res) => {
 
 app.post('/', (req, res)  => {
     // const { event } = req.body;
-    console.log({body: req});
+    console.log({body: req.body});
     // console.log(req)
 
     res.send({ ack: 'ack' });
