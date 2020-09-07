@@ -115,10 +115,10 @@ app.post('/', (req, res)  => {
     const { event } = req.body;
     console.log({body: req.body});
     if(event === 'meeting.participant_left') {
-        setLightOnOff('off', 10)
+        setLightOnOff('off', 5)
     }
     else if(event === 'meeting.participant_joined') {
-        setLightOnOff('on', 10)
+        setLightOnOff('on', 5)
     }
     // console.log(req)
 
