@@ -25,12 +25,10 @@ const basicAuth = () => {
     return `Basic ${buff.toString('base64')}`
 }
 
-const authHeaders = () => {
-    return {
-        Authorization: `Bearer ${HUE_ACCESS_TOKEN}`,
-        "Content-Type": 'application/json'
-    }
-}
+const authHeaders = {
+      Authorization: `Bearer ${HUE_ACCESS_TOKEN}`,
+      "Content-Type": 'application/json'
+  }
 
 const app = express();
 
@@ -38,9 +36,9 @@ app.use(bodyParser.json());
 
 app.get('/whitelist', (req, res) => {
     axios
-      .post(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders()})
+      .post(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
       .then(
-          axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'})
+          axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'}, {headers: authHeaders})
             .then((res) => {
                 console.log('bridgeRes', res)
             })
