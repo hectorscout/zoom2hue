@@ -38,10 +38,10 @@ app.get('/whitelist', (req, res) => {
     axios
       .post(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
       .then((linkRes) => {
-          console.log('linkRes', linkRes)
+          console.log('linkRes', linkRes.data)
           axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'}, {headers: authHeaders})
             .then((bridgeRes) => {
-                console.log('bridgeRes', bridgeRes.body)
+                console.log('bridgeRes', bridgeRes.data)
                 res.send({
                     data: bridgeRes.data,
                     error: bridgeRes.data.error
