@@ -1,6 +1,6 @@
-const axios = require("axios");
-const express = require("express");
-const bodyParser = require("body-parser");
+import * as axios from "axios";
+import * as express from "express";
+import * as bodyParser from "body-parser";
 
 const port = process.env.PORT || 8080;
 const HUE_CLIENT_ID = process.env.HUE_CLIENT_ID;
