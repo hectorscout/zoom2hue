@@ -34,9 +34,6 @@ const authHeaders = {
 const setLightOnOff = (state, lightId = 10) => {
     axios
       .put(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights/${lightId}/state`, {on: state === 'on'}, {headers: authHeaders})
-      .then(lightRes => {
-          res.send({lightRes: lightRes.data})
-      })
       .catch(error => console.log(error))
 }
 
