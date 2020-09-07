@@ -44,6 +44,15 @@ app.get('/lights', (req, res) => {
       .catch(error => console.log(error))
 })
 
+app.get('/light/:lightid', (req, res) => {
+    axios
+      .get(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights/${req.params.lightid}`, {headers: authHeaders})
+      .then(lightRes => {
+          res.send({light: lightRes.data})
+      })
+      .catch(error => console.log(error))
+})
+
 app.get('/whitelist', (req, res) => {
     axios
       .put(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
