@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 
 app.get('/whitelist', (req, res) => {
     axios
-      .post(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
+      .put(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
       .then((linkRes) => {
           console.log('linkRes', linkRes.data)
           axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'}, {headers: authHeaders})
