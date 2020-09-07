@@ -119,7 +119,7 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   const { event } = req.body;
   console.log({ body: req.body });
-  console.log((payload: req.body.payload));
+  console.log((payload, req.body.payload));
   if (event === "meeting.participant_left") {
     setLightOnOff("off", 5);
   } else if (event === "meeting.participant_joined") {
