@@ -120,10 +120,17 @@ app.post("/", (req, res) => {
   const { event } = req.body;
   console.log({ body: req.body });
   console.log(("payload", req.body.payload));
-  if (event === "meeting.participant_left") {
-    setLightOnOff("off", 5);
-  } else if (event === "meeting.participant_joined") {
-    setLightOnOff("on", 5);
+  //   if (event === "meeting.participant_left") {
+  //     setLightOnOff("off", 5);
+  //   } else if (event === "meeting.participant_joined") {
+  //     setLightOnOff("on", 5);
+  //   }
+  if (event === "user.presence_status_updated") {
+    if (req.body.payload.object.presence_status === "Do_Not_Disturb") {
+      setLightOnOff("on", 10);
+    } else {
+      setLightOnOff("off", 10);
+    }
   }
 
   res.send({ ack: "ack" });
