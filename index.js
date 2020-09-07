@@ -39,7 +39,7 @@ app.get('/lights', (req, res) => {
     axios
       .get(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights`, {headers: authHeaders})
       .then(lightsRes => {
-        res({lights: lightsRes.data})
+        res.send({lights: lightsRes.data})
       })
       .catch(error => console.log(error))
 })
