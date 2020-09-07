@@ -53,6 +53,15 @@ app.get('/light/:lightid', (req, res) => {
       .catch(error => console.log(error))
 })
 
+app.get('/light/:lightid/:state', (req, res) => {
+    axios
+      .put(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights/${req.params.lightid}/state`, {on: req.params.state === 'on'}, {headers: authHeaders})
+      .then(lightRes => {
+          res.send({lightRes: lightRes.data})
+      })
+      .catch(error => console.log(error))
+})
+
 app.get('/whitelist', (req, res) => {
     axios
       .put(`${HUE_BASE_URL}/bridge/0/config`, {linkbutton: true}, {headers: authHeaders})
