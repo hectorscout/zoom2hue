@@ -41,6 +41,10 @@ app.get('/whitelist', (req, res) => {
           axios.post(`${HUE_BASE_URL}/bridge`, {devicetype: 'herokuzoom2hue'}, {headers: authHeaders})
             .then((res) => {
                 console.log('bridgeRes', res)
+                res({
+                    data: res.data,
+                    error: res.data.error
+                })
             })
             .catch(error => console.log(error))
       )
@@ -54,10 +58,6 @@ app.get('/', (req,res) => {
       .post(`${HUE_BASE_URL}/oauth2/token?code=${req.query.code}&grant_type=authorization_code`, {}, {headers})
       .then( res => {
         console.log('token response', res.data)
-        res({
-            data: res.data,
-            error: res.data.error
-        })
       })
       .catch(error => {
           console.log(error.response)
