@@ -31,6 +31,15 @@ const authHeaders = {
       "Content-Type": 'application/json'
   }
 
+const setLightOnOff = (state, lightId = 10) => {
+    axios
+      .put(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights/${lightId}/state`, {on: state === 'on'}, {headers: authHeaders})
+      .then(lightRes => {
+          res.send({lightRes: lightRes.data})
+      })
+      .catch(error => console.log(error))
+}
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -106,8 +115,14 @@ app.get('/', (req,res) => {
 })
 
 app.post('/', (req, res)  => {
-    // const { event } = req.body;
+    const { event } = req.body;
     console.log({body: req.body});
+    if(event === 'meeting.participant_left') {
+        setLightOnOff('off', 5)
+    }
+    else if(event === 'meeting.participant_joined') {
+        setLightOnOff('on', 5)
+    }
     // console.log(req)
 
     res.send({ ack: 'ack' });
@@ -125,3 +140,4 @@ app.listen(port, () => {
 //     2020-09-06T23:31:17.020251+00:00 app[web.1]:     access_token_expires_in: '604799',
 //     2020-09-06T23:31:17.020251+00:00 app[web.1]:     refresh_token_expires_in: '9676799',
 //     2020-09-06T23:31:17.020252+00:00 app[web.1]:     token_type: 'BearerToken'
+
