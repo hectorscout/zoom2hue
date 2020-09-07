@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080;
 const HUE_CLIENT_ID = process.env.HUE_CLIENT_ID;
 const HUE_CLIENT_SECRET = process.env.HUE_CLIENT_SECRET;
 const HUE_ACCESS_TOKEN = process.env.HUE_ACCESS_TOKEN;
+const HUE_USERNAME = process.env.HUE_USERNAME;
 
 const HUE_BASE_URL = 'https://api.meethue.com';
 
@@ -33,6 +34,14 @@ const authHeaders = {
 const app = express();
 
 app.use(bodyParser.json());
+
+app.get('/lights', (req, res) => {
+    axios
+      .get(`${HUE_BASE_URL}/bridge/${HUE_USERNAME}/lights`, {headers: authHeaders})
+      .then(lightsRes => {
+        res({lights: lightsRes.data})
+      })
+})
 
 app.get('/whitelist', (req, res) => {
     axios
