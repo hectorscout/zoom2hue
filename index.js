@@ -41,6 +41,7 @@ app.get('/lights', (req, res) => {
       .then(lightsRes => {
         res({lights: lightsRes.data})
       })
+      .catch(error => console.log(error.response))
 })
 
 app.get('/whitelist', (req, res) => {
